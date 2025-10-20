@@ -1,43 +1,9 @@
-import { useState } from "react";
 import { MapPin, Mail, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you as soon as possible.",
-      });
-      setFormData({ firstName: "", lastName: "", email: "", message: "" });
-      setIsSubmitting(false);
-    }, 1000);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const contactInfo = [
     {
       icon: MapPin,
@@ -78,65 +44,34 @@ const Contact = () => {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
+            {/* Contact Form - replaced with Formspree */}
             <Card className="border-2">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  action="https://formspree.io/f/xgvnbwnp"
+                  method="POST"
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                        placeholder="John"
-                      />
+                      <label htmlFor="firstName" className="block text-sm font-medium text-muted-foreground">First Name</label>
+                      <input type="text" id="firstName" name="firstName" required placeholder="John" className="w-full px-4 py-2 border rounded-md" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                        placeholder="Doe"
-                      />
+                      <label htmlFor="lastName" className="block text-sm font-medium text-muted-foreground">Last Name</label>
+                      <input type="text" id="lastName" name="lastName" required placeholder="Doe" className="w-full px-4 py-2 border rounded-md" />
                     </div>
                   </div>
-
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="john.doe@example.com"
-                    />
+                    <label htmlFor="email" className="block text-sm font-medium text-muted-foreground">Your Email</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com" className="w-full px-4 py-2 border rounded-md" />
                   </div>
-
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      placeholder="Tell us about your project..."
-                      rows={6}
-                    />
+                    <label htmlFor="message" className="block text-sm font-medium text-muted-foreground">Your Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your project..." rows={6} className="w-full px-4 py-2 border rounded-md" />
                   </div>
-
-                  <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
+                  <button type="submit" className="w-full bg-primary text-white py-3 rounded-md font-semibold hover:bg-primary/90 transition">Send</button>
                 </form>
               </CardContent>
             </Card>
